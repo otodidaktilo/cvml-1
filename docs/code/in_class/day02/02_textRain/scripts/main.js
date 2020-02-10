@@ -78,12 +78,10 @@ function draw() {
     text(fl.char, fl.x, fl.y  );
     fill( 0,210 ,0 ) ;
     text(fl.char, fl.x, fl.y-4);
-    fill( 0,180 ,0 ) ;
-    text(fl.char, fl.x, fl.y-8);
+    
     fill( 0,150,0 ) ; 
     text(fl.char, fl.x, fl.y-12);
-    fill( 0,120,0 ) ;
-    text(fl.char, fl.x, fl.y-16);
+    
     fill( 0,100,0 ) ;
     text(fl.char, fl.x, fl.y-20);
        
