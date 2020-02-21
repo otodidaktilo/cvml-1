@@ -23,7 +23,9 @@ function setup() {
   button = createButton('snap');
   button.mousePressed(takesnap);
   takesnap();
-  //capture.hide();
+  // canvas.parent("#sketch");
+  // extraCanvas.parent("#sketch");
+  capture.hide();
 //PARTICLES
  
 //  print(particles.length);
