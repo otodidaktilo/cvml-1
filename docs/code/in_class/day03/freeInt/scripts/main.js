@@ -12,10 +12,11 @@ let currentSnap;
 let newColor = [];
 let extraCanvas;
 let numSnaps =1 ;
+let canvas;
 
 function setup() {
 
-  createCanvas(w,2*h);
+ canvas= createCanvas(w,2*h);
   extraCanvas = createGraphics(w,h);
   background(51);
   capture= createCapture(VIDEO);
@@ -23,8 +24,9 @@ function setup() {
   button = createButton('snap');
   button.mousePressed(takesnap);
   takesnap();
-  // canvas.parent("#sketch");
-  // extraCanvas.parent("#sketch");
+  canvas.parent("#sketch");
+  extraCanvas.parent("#sketch");
+  button.parent("#sketch");
   capture.hide();
 //PARTICLES
  
