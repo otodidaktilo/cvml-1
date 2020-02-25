@@ -46,6 +46,6 @@ class Particle {
     ellipse( this.srcPos.x,this.srcPos.y,15);
       text( 'p.srcPos', this.srcPos.x +10 ,this.srcPos.y );
     ellipse( this.dstPos.x,this.dstPos.y,15);
-      text( 'p.srcPos', this.dstPos.x +10 ,this.dstPos.y );
+      text( 'p.dstPos', this.dstPos.x +10 ,this.dstPos.y );
   }
 }
