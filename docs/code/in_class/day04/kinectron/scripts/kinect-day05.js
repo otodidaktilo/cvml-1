@@ -45,7 +45,7 @@ function drawBody(body){
     let forceScaler = -30;
     //console.log(mPos);
     fill(255,0,0);
-    ellipse( mPos.x,mPos.y, 40);
+    //ellipse( mPos.x,mPos.y, 40);
     for(let i = 0; i < particles.length; i++) {
     
             let p= particles[i]; 
