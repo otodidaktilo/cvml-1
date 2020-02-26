@@ -13,14 +13,16 @@ let newColor = [];
 let extraCanvas;
 let numSnaps =1 ;
 let canvas;
+let curTime = 100;
+
 
 function setup() {
 
-canvas= createCanvas(w,2*h);
+canvas= createCanvas(w,h);
 extraCanvas = createGraphics(w,h);
 background(51);
 capture= createCapture(VIDEO);
-capture.size = (w,h*2);
+capture.size = (w,h);
 button = createButton('snap');
 button.mousePressed(takesnap);
 takesnap();
@@ -40,27 +42,27 @@ function takesnap(){
     snapshots.push(capture.get());
     //console.log(capture.get());
      for (var i = 0 ; i < snapshots.length; i++){
-      image(snapshots[i],0,0);
-      image(snapshots[i],0,h);
+      //image(snapshots[i],0,0);
+     // image(snapshots[i],0,h);
       currentSnap = snapshots[i];
-    
+      //console.log (currentSnap);
      }
      if (numSnaps < 3 ){
        numsnaps = 0 ;
        snapshots.shift();
      }
  //  print(currentSnap);
-    stepSize = 40;
+    stepSize = 15;
     for(let y = 0; y < h; y+=stepSize) {
       for (let x = 0; x < w; x+=stepSize) {
-        let index = (x +(y+480) * w)*4;
+       // let index = (x +(y+480) * w)*4;
         let p = new Particle();
         // get the pixel color at the current XY position
         
         //newColor.push(getColor(x,y));    
         // print(newColor[0]);
         let pixelColor1  = currentSnap.get(x,y);
-        let pixelColor = [pixels[index],pixels[index+1],pixels[index+2], pixels[index+3]];
+        // let pixelColor = [pixels[index],pixels[index+1],pixels[index+2], pixels[index+3]];
         //  print(getColor(x,y));
         //print(pixelColor);
         p.color = pixelColor1;
@@ -91,11 +93,18 @@ function takesnap(){
 function draw() {
   loadPixels();
   capture.loadPixels();
+  let time = millis() *0.006;
+   curTime-= deltaTime/5;
 //  background(currentSnap);
 //    for (var i = 0 ; i < snapshots.length; i++){
 //     image(snapshots[i],0,0);
 //     currentSnap = snapshots [i] ;
-
+let minTime = 50;
+if (curTime <=0){
+  takesnap();
+    curTime = minTime;
+  
+}
 //    }
   for(let z = 0; z < particles.length; z++) {
     
@@ -114,13 +123,13 @@ class Particle {
   // acceleration: change in velocity over time
   
   constructor() {
-    this.pos = createVector(random(width), random(height));
-    this.vel = createVector(random(-0.5, 0.5), random(-0.5, 0.5));
-    this.acc = createVector(random(-0.01, 0.01), random(-0.01, 0.01));
+    // this.pos = createVector(random(width), random(height));
+    // this.vel = createVector(random(-0.5, 0.5), random(-0.5, 0.5));
+    // this.acc = createVector(random(-0.01, 0.01), random(-0.01, 0.01));
     
     this.color = [random(255), 255, 255];
     this.size = 40;
-    this.age = 130;
+    this.age = 30;
     //this.drag = 0.99;
     
   }
@@ -135,9 +144,9 @@ class Particle {
   // updates the state variables (position, velocity, etc.)
   update() {
     this.age -- ;
-    this.vel.add(this.acc);
-    // this.vel.mult(this.drag); // uncomment this line to add drag to the particles
-    this.pos.add(this.vel);
+    // this.vel.add(this.acc);
+    // // this.vel.mult(this.drag); // uncomment this line to add drag to the particles
+    // this.pos.add(this.vel);
     
 
     
