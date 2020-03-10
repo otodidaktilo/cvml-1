@@ -2,7 +2,7 @@
 let particles =[]; 
 let snapshots = [];
 let capture;
-
+let a =0 ; 
 let w = 640;
 let h = 480;
 
@@ -16,9 +16,9 @@ let canvas;
 
 function setup() {
 
-canvas= createCanvas(w,2*h);
+canvas= createCanvas(w+100,2*h);
 extraCanvas = createGraphics(w,h);
-background(51);
+background(0);
 capture= createCapture(VIDEO);
 capture.size = (w,h*2);
 button = createButton('snap');
@@ -29,7 +29,12 @@ extraCanvas.parent("#sketch");
 button.parent("#sketch");
 capture.hide();
 //PARTICLES
- 
+let info = 'to take\na photo\npress\n   "s" \nor press \n snap \nbutton'
+textSize(20);
+fill (255); 
+textLeading(20); // Set leading to 20
+text(info, w+10 , 25);
+
 //  print(particles.length);
   
  
@@ -40,7 +45,7 @@ function takesnap(){
     snapshots.push(capture.get());
     //console.log(capture.get());
      for (var i = 0 ; i < snapshots.length; i++){
-      image(snapshots[i],0,0);
+   //   image(snapshots[i],0,0);
       image(snapshots[i],0,h);
       currentSnap = snapshots[i];
     
@@ -67,8 +72,32 @@ function takesnap(){
         p.pos = createVector(x, y);
         particles.push(p);
       } 
+
+      //int 
+      //floor random array.length 
     }
+
+    fill(0);
+    rect(w+10, 200,90,800);
+   // let i =0; 
+    let line1 = 'you\nlook\ngorgeous\n!!!!!!'
+    let line2 = 'I am\nwatching\nyou'
+    let line3 = 'wooow \nthis\nsketch is\nso cool\n!!!!'
+    let lines = [line1,line2,line3];
+   // randLine = random(0,2);
+   textSize(20);
+   fill (255); 
+   textLeading(20); // Set leading to 20s
+   
+   //let a =0 ; 
+   console.log(a);
+    text(lines[a], w+10 , 300);
+     a++;
   
+    if(a ==3){
+    a=0;
+    //text(lines[i], w+10 , 300);
+    }
 }
 // function getColor(_x, _y) {
   
@@ -142,4 +171,9 @@ class Particle {
 
     
   }
+}
+function keyTyped() {
+  if (key === 's') {
+    takesnap();
+  } 
 }
