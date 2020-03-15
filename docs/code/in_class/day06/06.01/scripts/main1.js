@@ -7,6 +7,7 @@ let w = 640;
 let h = 480;
 
 var button;
+var button5;
 let stepSize = 40;
 let currentSnap;
 let newColor = [];
@@ -15,20 +16,31 @@ let drawingCanvas;
 let numSnaps =1 ;
 let totalSnaps = 0; 
 let canvas;
-let button1; //INVERT
-let button2; //TRESHOLD
-let button3; //GRAY
-let button4; //POSTERIZE
-let effects = ["INVERT","TRESHOLD","GRAY","POSTERIZE"];
-let choosenEffect;
+// let button1; //INVERT
+// let button2; //TRESHOLD
+// let button3; //GRAY
+// let button4; //POSTERIZE
+// let effects = ["INVERT","TRESHOLD","GRAY","POSTERIZE"];
+// let choosenEffect;
+
+let sketchName;
+var input;
 let currentColor;
 let drawingColor = [];
 let readyToPicColor = false;
 let readyToDraw = false;
 let isDrawing = false;
 let hit = false;
-
+// function doFirst(){
+//   button5 = document.getElementById("button5");button5.addEventListener("click", saveName,false); 
+// }
+// function saveName(){
+//   var name = document.getElementById("name").value;
+// }
+// window.addEventListener("load", doFirst,false);
 function setup() {
+input = createInput();
+input.changed(newText);
 let c = color(10,10,255,255);
 colorPallet[0] = c;
 colorPallet[1] = c;
@@ -41,12 +53,14 @@ colorPallet[7] = c;
 colorPallet[8] = c;
 colorPallet[9] = c;
 drawingColor[0] = c;
-canvas= createCanvas(w+100,2*h);
+canvas= createCanvas(w+100,2*h+50);
 extraCanvas = createGraphics(w,h);
 drawingCanvas = createGraphics(w,2*h);
 background(0);
 capture= createCapture(VIDEO);
 capture.size = (w,h*2);
+//Input
+
 
 //BUTTONS
     button = createButton('snap'); //Take Photo
@@ -66,8 +80,8 @@ drawingCanvas.parent("#sketch");
 button.parent("#sketch");
 capture.hide();
 //INFO
-let info = 'To Snap\n Press\n   "S" \nOr Use \nButton';
-let info1 = 'Press\n   "A" \nto Draw';
+let info = 'To Snap\n Press\n   "1" \nOr Use \nButton';
+let info1 = 'Press\n   "2" \nto Draw';
 textSize(20);
 fill (255); 
 textLeading(20); // Set leading to 20
@@ -75,7 +89,7 @@ text(info, w+10 , 25);
 text(info1, w+10 , 150);
 //  print(particles.length);
 }
-// //FILTER EFFECTS
+//FILTER EFFECTS
 // function Effect1(){
 //     choosenEffect = effects[1];
 // }
@@ -88,14 +102,15 @@ text(info1, w+10 , 150);
 // function Effect4(){
 //     choosenEffect = effects[4];
 // }
+
+function newText(){
+  console.log(input.value());
+}
 function takesnap(){
-//    print("took a screenshot");
     readyToPicColor = true;
-   // console.log(choosenEffect);
     numSnaps++;
     totalSnaps++;
     snapshots.push(capture.get());
-    //console.log(capture.get());
      for (var i = 0 ; i < snapshots.length; i++){
    //   image(snapshots[i],0,0);
         image(snapshots[i],0,h);
@@ -132,78 +147,10 @@ function takesnap(){
         particles[z].update();
         if(particles[z].age<0){
           particles.shift();  
-          //  takesnap() ;
         }
       }
        image(extraCanvas,0,0);
-
 }
-function mousePressed(){
-    if(readyToPicColor==true){
-        currentColor = get(mouseX,mouseY );
-        colorPallet.push(currentColor) ;
-        // console.log(currentColor);
-        // console.log(colorPallet);
-        createPallet();
-    }
-    if(readyToDraw==true && hit == true){
-        
-        drawingColor= get(mouseX,mouseY);
-        
-        //readyToDraw= true;
-        let x = get(mouseX,mouseY);
-        drawingColor.push(x);
-       // console.log(drawingColor.length);
-        //delete the prev color on drawing color 
-        readyToDraw= true;
-        if(drawingColor.length<1){
-            drawingColors.shift();  
-            //  takesnap() ;
-          }
-        
-    }
-    if (readyToDraw == true && hit == false){
-         isDrawing = true;
-        let a = color (drawingColor[0]); 
-        fill(a);
-        ellipse(mouseX,mouseY,stepSize*2,stepSize*2  ) ;
-        console.log(drawingColor);
-        
-    }
-
-
-}
-// function mousePressed(){
-//     if(readyToPicColor==true){
-//         currentColor = get(mouseX,mouseY );
-//         colorPallet.push(currentColor) ;
-//         console.log(currentColor);
-//         console.log(colorPallet);
-//         createPallet();s
-//     }else if(readyToDraw==true){
-//         isDrawing = true;
-//         //  drawingCanvas.fill(color('rgba(drawingColor[0])'));
-//         //  drawingCanvas.ellipse(mouseX,mouseY,stepSize*2,stepSize*2  ) ;
-//     }
-//     if (hit==true){
-//         let x = get(mouseX,mouseY);
-//         drawingColor.push(x);
-//         print(drawingColor[0]);
-//         //delete the prev color on drawing color 
-//         readyToDraw= true;
-//         if(drawingColor.length<1){
-//             particles.shift();  
-//             //  takesnap() ;
-//           }
- 
-//     }
-    
-
-// }
-function mouseReleased(){
-    isDrawing = false;
-}
-
 
 function createPallet(){
     //PALLETTE RECTS
@@ -211,56 +158,45 @@ function createPallet(){
     //print(colorPallet[0]) ;
    
         fill(color(colorPallet[0]));
-        let rect1 = rect(w+15, 200, stepSize,stepSize);
+        rect(w+15, 200, stepSize,stepSize);
         fill(colorPallet[1]);
-        let rect2 = rect(w+15, 200+stepSize, stepSize,stepSize);
+        rect(w+15, 200+stepSize, stepSize,stepSize);
         fill(colorPallet[2]);
-        let rect3 = rect (w+15, 200+stepSize*2, stepSize,stepSize);
+        rect (w+15, 200+stepSize*2, stepSize,stepSize);
         fill(colorPallet[3]);
-        let rect4 = rect (w+15, 200+stepSize*3, stepSize,stepSize);
+        rect (w+15, 200+stepSize*3, stepSize,stepSize);
         fill(colorPallet[4]);
-        let rect5 = rect (w+15, 200+stepSize*4, stepSize,stepSize);
+        rect (w+15, 200+stepSize*4, stepSize,stepSize);
         fill(colorPallet[5]);
-        let rect6 = rect (w+15, 200+stepSize*5, stepSize,stepSize);
+        rect (w+15, 200+stepSize*5, stepSize,stepSize);
         fill(colorPallet[6]);
-        let rect7 = rect (w+15, 200+stepSize*6, stepSize,stepSize);
+        rect (w+15, 200+stepSize*6, stepSize,stepSize);
         fill(colorPallet[7]);
-        let rect8 = rect (w+15, 200+stepSize*7, stepSize,stepSize);
+        rect (w+15, 200+stepSize*7, stepSize,stepSize);
         fill(colorPallet[8]);
-        let rect9 = rect (w+15, 200+stepSize*8, stepSize,stepSize);
+        rect (w+15, 200+stepSize*8, stepSize,stepSize);
         fill(colorPallet[9]);
-        let rect10 = rect (w+15, 200+stepSize*9, stepSize,stepSize);
-        if(colorPallet.length>9){
+        rect (w+15, 200+stepSize*9, stepSize,stepSize);
+        if(colorPallet.length>10){
              colorPallet.shift();  
         
          }
     }
 function draw() {
-  loadPixels();
-  capture.loadPixels();
+  if (!readyToDraw){
+    loadPixels();
+    capture.loadPixels();
+
+  }
     if (readyToPicColor == false){readyToDraw =true;}
     hit = collidePointRect(mouseX,mouseY,w+15, 200,stepSize,200 + stepSize*9);
-    console.log(hit);
+    //console.log(hit);
     if (readyToDraw == true){
        image(drawingCanvas,0,0);
     }
     createPallet();
-    // if (mouseIsPressed){
-    //     fill(drawingColor);
-    //     rect (ellipse(mouseX,mouseY,stepSize*2,stepSize*2  ));
-    //     console.log("Fuck yeah!");
-    // }
-    // if(isDrawing = true){
-    //     // drawingCanvas.fill([drawingColor]);
-    //     // adrawingCanvas.ellipse(mouseX,mouseY,stepSize*2,stepSize*2  ) ;
-    // }
-
 }
 class Particle {
-  
-  // velocity: change in position over time
-  // acceleration: change in velocity over time
-  
   constructor() {
     this.color = [random(255), 255, 255];
     this.size = 40;
@@ -278,16 +214,49 @@ class Particle {
   }
 }
 function keyTyped() {
-  if (key === 's') {
+  if (key === '1') {
     takesnap();
     readyToPicColor=true;
     readyToDraw =false;
   } 
-  if (key === 'a') {  
+  if (key === '2') {  
       readyToPicColor = false;
       readyToDraw =true;
         //print(readyToDraw);
         fill(0);
         rect(0,0,w,h*2);
   }
+  if (key == '3'){
+    let b = input.value();
+    save( input.value() +'.png');
+  }
+}
+function mousePressed(){
+  if(readyToPicColor==true){
+      currentColor = get(mouseX,mouseY );
+      colorPallet.push(currentColor) ;
+      createPallet();
+  }
+  if(readyToDraw==true && hit == true){
+      loadPixels();
+      let x = get(mouseX,mouseY);
+      drawingColor.push(x);
+     // console.log(drawingColor.length);
+      //delete the prev color on drawing color 
+      readyToDraw= true;
+      if(drawingColor.length>1){
+          drawingColor.shift();  
+        }    
+  }
+}
+function mouseDragged(){
+  if (readyToDraw == true && hit == false){
+       isDrawing = true;
+      let a = color (drawingColor[0]); 
+      a.setAlpha(50);
+      noStroke();
+      fill(a);
+      ellipse(mouseX,mouseY,stepSize*2,stepSize*2  ) ;
+    //console.log(drawingColor);      
+    }  
 }

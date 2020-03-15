@@ -13,12 +13,14 @@ let crowd;
 function preload(){
 
     classifier = ml5.imageClassifier(modelURL + 'model.json');
-    bass  = loadSound("scripts/bass_ea.mp3");
-    // crowd  = loadSound("scripts/crowd1_ea.m4a");
+    soundFormats('mp3');
+    bass  = loadSound('scripts/bass_ea.mp3');
+   //crowd  = loadSound('scripts/crowd1_ea.mp3');
 }
 // STEP 1: Load the model!
 
 function setup() {
+   // crowd.setVolume(1);
   canvas =createCanvas(640, 520);
   canvas.parent('sketch');
   // Create the video
@@ -28,18 +30,18 @@ function setup() {
   // STEP 2: Start classifying
   classifyVideo();
 }
-  
+
 function classifyVideo(){
-  classifier.classify(video, gotResults);
+    classifier.classify(video, gotResults);
 }
 
 // STEP 2 classify!
 
 function draw() {
-  background(0);
-//   if (!crowd.isPlaying()){
-//     crowd.play(); 
-// }
+    background(0);
+    // if (!crowd.isPlaying()){
+    //    //crowd.play(); 
+    // }
   // Draw the video
   image(video, 0, 0);
 
