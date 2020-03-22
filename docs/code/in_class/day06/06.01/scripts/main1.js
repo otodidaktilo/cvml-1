@@ -31,6 +31,7 @@ let readyToPicColor = false;
 let readyToDraw = false;
 let isDrawing = false;
 let hit = false;
+let size =50;
 // function doFirst(){
 //   button5 = document.getElementById("button5");button5.addEventListener("click", saveName,false); 
 // }
@@ -230,6 +231,12 @@ function keyTyped() {
     let b = input.value();
     save( input.value() +'.png');
   }
+  if (key == '4'){
+    size-=5;
+  }
+  if (key == '5'){
+    size+=5;
+  }
 }
 function mousePressed(){
   if(readyToPicColor==true){
@@ -256,7 +263,7 @@ function mouseDragged(){
       a.setAlpha(50);
       noStroke();
       fill(a);
-      ellipse(mouseX,mouseY,stepSize*2,stepSize*2  ) ;
+      ellipse(mouseX,mouseY,size,size  ) ;
     //console.log(drawingColor);      
     }  
 }
